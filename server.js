@@ -3,6 +3,15 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://briana_bricher:noPAIN123@cluster0-mzd5a.gcp.mongodb.net/test?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
 const items = require('./routes/api/items');
 
 const app = express();
@@ -10,7 +19,7 @@ const app = express();
 // Bodyparser Middleware
 app.use(bodyParser.json());
 
-// Connefct ot Mongo
+// Connect to Mongo
 mongoose
     .connect(process.env.MONGODB_URI || "mongodb+srv://briana_bricher:noPAIN123@cluster0-mzd5a.gcp.mongodb.net/test?retryWrites=true&w=majority")
     .then(() => console.log('MongoDB Connected...'))
