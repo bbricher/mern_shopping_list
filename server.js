@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 var MongoClient = require('mongodb').MongoClient;
 
-var uri = "mongodb://briana_bricher:noPAIN123@cluster0-shard-00-00-mzd5a.gcp.mongodb.net:27017,cluster0-shard-00-01-mzd5a.gcp.mongodb.net:27017,cluster0-shard-00-02-mzd5a.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
+var uri = process.env.MONGODB_URI || "mongodb://briana_bricher:noPAIN123@cluster0-shard-00-00-mzd5a.gcp.mongodb.net:27017,cluster0-shard-00-01-mzd5a.gcp.mongodb.net:27017,cluster0-shard-00-02-mzd5a.gcp.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority";
 
 const items = require('./routes/api/items');
 
@@ -19,7 +19,7 @@ mongoose
 .then(() => console.log('MongoDB Connected...'))
 .catch(err => console.log(err));
 
-MongoClient.connect(process.env.MONGODB_URI || uri, function(err, client) {
+MongoClient.connect(uri, function(err, client) {
   const collection = client.db("test").collection("devices");
   // perform actions on the collection object
   client.close();
